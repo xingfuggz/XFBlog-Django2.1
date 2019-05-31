@@ -1,0 +1,116 @@
+html{
+    font-size: 15px;
+    background-color: #EFEFEF;
+}
+.a-size a{
+    font-size: 14px !important;
+    font-weight: bold;
+}
+header{
+    /* height: 60px; */
+    border-bottom:1px solid #e5e5e5;
+}
+.card{
+    border:1px solid #dedede;
+}
+
+.card-title{
+    font-size: 28px;
+    /* line-height: 80px !important; */
+    padding: 25px 25px 20px !important;
+}
+.card-contents{
+    /* padding: 25px !important; */
+    font-size: 15px;
+    color: #444;
+}
+
+.card-footer{
+    /* height: 50px; */
+    /* line-height: 50px; */
+    padding: 10px 25px;
+    font-size: 12px;
+    border-top:1px solid #EAEAEA !important;
+    color: #707070;
+}
+
+.card-footer a{
+    color: #707070; 
+}
+.card-footer a:hover{
+    color:#3273dc; 
+    text-decoration: underline;
+}
+.card-footer ul li{
+    margin:5px 20px 5px 0; 
+}
+
+.panel-head-backcolor{
+    background: #f7f7f7 !important;
+}
+.box{
+    background: #f7f7f7 !important;
+    border: solid 1px #dedede;
+}
+
+.box h1{
+    color: #333;
+    font-size: 16px;
+    padding: 12px 20px 10px;
+    border-bottom: solid 1px #EAEAEA;
+    text-transform: uppercase;
+    position: relative;
+    /* margin: -18px -18px 10px; */
+}
+
+
+.box .box-content{
+    background: #ffffff;
+    padding: 10px 20px;
+    font-size: 13px;
+}
+.box .box-content li{
+    padding: 8px 15px;
+    overflow: hidden;
+    line-height: 18px;
+    border-bottom: 1px solid #eee;
+}
+
+.box .box-content li a{
+    font-size: 13px;
+    /* display: block; */
+}
+.box .box-content li time{
+    font-size: 0.8125rem;
+    color: #686868;
+    line-height: 1.615384615;
+    margin-bottom: 0.538461538em;
+    display: block;
+}
+
+.footer{
+    background: #e0e0e0 !important;
+    border-top: 1px solid #dadada;
+    padding: 15px;
+}
+
+/** detail***/
+
+.page{
+    padding: 25px 25px 35px;
+    border-top: 1px solid #dedede;
+}
+
+/* login */
+.login{
+    display: flex;
+    min-height: 100vh;
+    margin: 0;
+}
+.login .login-box{
+    margin:auto;
+}
+
+code, pre{
+    /*font-family: "Microsoft YaHei", "微软雅黑", Helvetica, Tahoma, STXihei, "华文细黑", STHeiti, "Helvetica Neue", Helvetica, Tahoma, "Droid Sans", "wenquanyi micro hei", FreeSans, Arimo, Arial, SimSun, "宋体", Heiti, "黑体", sans-serif ;!important;*/
+}

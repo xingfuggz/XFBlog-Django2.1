@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% load blog_tags %}
+{% block head %}
+    <title>{{ category.name }}--博客分类</title>
+    <meta name="Copyright" content="幸福关中通过Django开发的博客系统" />
+    <meta name="keywords" content="Python, Django, framework, open-source" />
+    <meta name="description" content="{{ category.desc }}" />
+{% endblock %}
+
+{% block section %}
+      <div class="box has-background-white is-radiusless is-shadowless">
+          <div class="content">
+              <p class="is-pulled-left">
+                  <span class="has-text-weight-bold is-size-4">{{ category }}&nbsp;<span class="tag is-info">{% get_articel_nums category.id %}篇</span></span> <br>
+                  <span class="is-size-6">分类目录</span>
+              </p>
+              <a href="" class="button is-warning is-pulled-right">
+                  <span class="icon">
+                      <i class="fas fa-rss"></i>
+                  </span>
+                  <span>RSS</span>
+              </a>
+              <div class=" is-clearfix"></div>
+              <p class=" has-text-justified is-size-7">
+                  {{ category.desc }}
+              </p>
+          </div>
+      </div>
+
+  {% if contacts %}
+  {% for article in contacts %}
+  <div class="card is-shadowless" style="margin-bottom: 30px;">
+    {% if article.picture %}
+      <div class="card-image">
+          <figure class="image is-3by1">
+              <img src="{{ MEDIA_URL }}{{ article.picture }}" alt="{{ article.title }}">
+          </figure>
+      </div>
+    {% endif %}
+      <header class="card-header is-shadowless">
+          <a href="{% url 'blog:detail' article.id %}" class="card-header-title card-title">
+              {{ article.title }}
+          </a><span class="tag is-info is-radiusless">{{ article.get_has_reprint_display }}</span>
+      </header>
+      <div class="card-content">
+          <div class="content">
+              <p class="has-text-justified" style="padding-left: 20px">
+                  {{ article.content|truncatechars:100 }}
+              </p>
+              <a href="{% url 'blog:detail' article.id %}" class=" button is-radiusless is-medium is-link is-outlined" >
+                  <span class="is-size-6">阅读更多</span>
+                  <span class="icon is-size-6">
+                      <i class="fas fa-arrow-right"></i>
+                  </span>
+              </a>
+          </div>
+      </div>
+      <footer class="card-footer has-background-light">
+          <ul class="is-inline-block">
+              <li class="is-inline-block">
+                  <span class="icon is-small">
+                      <i class="fa fa-calendar-alt"></i>
+                  </span>
+                  <span>{{ article.add_date }} </span>
+              </li>
+              <li class="is-inline-block">
+                  <span class="icon is-small">
+                      <i class="fa fa-user"></i>
+                  </span>
+                  <span><a href="">{{ article.author }}</a></span>
+              </li>
+              <li class="is-inline-block">
+                  <span class="icon is-small">
+                      <i class="fa fa-folder-open"></i>
+                  </span>
+                  <span><a href="{% url 'blog:category' article.category.id %}">{{ article.category.name }}</a></span>
+              </li>
+              <li class="is-inline-block">
+                  <span class="icon is-small">
+                      <i class="fa fa-comments"></i>
+                  </span>
+                  <span><a href="">发表评论</a></span>
+              </li>
+              {% if user.is_authenticated %}
+              <li class="is-inline-block">
+                  <span class="icon is-small">
+                      <i class="fa fa-pencil-alt"></i>
+                  </span>
+                  <span><a href="">编辑</a></span>
+              </li>
+              {% endif %}
+          </ul>
+      </footer>
+  </div>
+    {% endfor %}
+    {% else %}
+      <p class="has-text-centered has-text-info" style="line-height: 80px">此栏目下还没有发表任何文章！</p>
+    {% endif %}
+
+<nav class="pagination is-centered" role="navigation" aria-label="pagination">
+{% if contacts.has_previous %}
+  <a class="pagination-previous is-radiusless has-background-white" href="?page={{ contacts.previous_page_number }}">Previous</a>
+{% endif %}
+{% if contacts.has_next %}
+  <a class="pagination-next is-radiusless has-background-white" href="?page={{ contacts.next_page_number }}">Next page</a>
+{% endif %}
+  <ul class="pagination-list">
+  <li><a class="pagination-link is-radiusless has-background-white" aria-label="Goto page 1" href="?page={{ contacts.start_index }}">第一页</a></li>
+      {% for page in pages %}
+    {% if page == contacts.number %}
+        <li><a class="pagination-link is-current is-radiusless" href="?page={{ page }}">{{ page }}</a></li>
+    {% else %}
+        <li><a class="pagination-link is-radiusless has-background-white" href="?page={{ page }}">{{ page }}</a></li>
+    {% endif %}
+{% endfor %}
+
+    <li><a class="pagination-link is-radiusless has-background-white" aria-label="Goto page 86" href="?page={{ contacts.end_index }}">最后一页</a></li>
+  </ul>
+</nav>
+
+{% endblock %}

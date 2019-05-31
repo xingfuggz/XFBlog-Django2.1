@@ -1,0 +1,345 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block head %}
+  <title>{{ article.title }} -幸福关中的博客 </title>
+  <link rel="stylesheet" type="text/css" href="{% static 'blog/css/code.css' %}">
+{% endblock head %}
+
+{% block section %}
+<div class="card is-shadowless" style="margin-bottom: 30px;">
+
+    <header class="card-header is-shadowless">
+        <a class="card-header-title card-title">
+            {{ article.title }}
+        </a>
+    </header>
+
+    {% if article.picture %}
+    <div class="card-image">
+        <figure class="image is-3by1">
+            <img src="{{ MEDIA_URL }}{{ article.picture }}" alt="{{ article.title }}">
+        </figure>
+    </div>
+    {% endif %}
+    <footer class="card-footer has-background-light">
+        <ul class="is-inline-block">
+            <li class="is-inline-block">
+                <span class="icon is-small">
+                    <i class="fa fa-calendar-alt"></i>
+                </span>
+                <span>{{ article.pub_date }} </span>
+            </li>
+            <li class="is-inline-block">
+                <span class="icon is-small">
+                    <i class="fa fa-folder-open"></i>
+                </span>
+                <span><a href="{% url 'blog:category' article.category.id %}">{{ article.category.name }}</a></span>
+            </li>
+            <li class="is-inline-block">
+                <span class="icon is-small">
+                    <i class="fa fa-book-reader"></i>
+                </span>
+                <span>阅读({{ article.get_read_num }})</span>
+            </li>
+            {% if user.is_authenticated %}
+            <li class="is-inline-block">
+                <span class="icon is-small">
+                    <i class="fa fa-pencil-alt"></i>
+                </span>
+                <span><a href="">编辑</a></span>
+            </li>
+            {% endif %}
+        </ul>
+    </footer>
+    <div class="card-content">
+        <div class="content has-text-justified" style="padding: 0 15px;">
+
+        {{ article.content | safe}}
+
+        </div>
+    </div>
+    <div class="page">
+        <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+        {% if per_blog %}
+            <div class="pagination-previous is-radiusless is-block has-text-left" style="border: none">
+                <p class="is-size-7">前一页</p>
+                <a href="{% url 'blog:detail' per_blog.id %}" class="">{{ per_blog}}</a>
+            </div>
+            {% else %}
+            <div class="pagination-previous is-radiusless is-block has-text-left" style="border: none">
+                <p class="is-size-7">前一页</p>
+{#                <a href="{% url 'blog:detail' per_blog.id %}" class="">{{ per_blog}}</a>#}
+            <p class="has-text-danger">前一页什么也没有了，所以不要点了</p>
+            </div>
+        {% endif %}
+            {% if next_blog %}
+            <div class="pagination-next is-radiusless is-block has-text-right" style="border: none">
+                <p class="is-size-7"> 后一页</p>
+                <a href="{% url 'blog:detail' next_blog.id %}" class="">{{ next_blog }}</a>
+            </div>
+                {% else %}
+            <div class="pagination-previous is-radiusless is-block has-text-left" style="border: none">
+                <p class="is-size-7">后一页</p>
+            <p class="has-text-danger">后一页什么也没有了，所以不要点了</p>
+            </div>
+            {% endif %}
+        </nav>
+    </div>
+
+     <div class="page has-background-light">
+         <article class="media">
+             <figure class="media-left">
+                 <p class="image is-64x64">
+                     <img src="https://bulma.io/images/placeholders/128x128.png">
+
+                 </p>
+             </figure>
+             <div class="media-content">
+                 <div class="content">
+                     <h2>{{ article.author.username }}</h2>
+                     <p>
+                         这是个人说明信息，看看是否显示！这是个人说明信息，看看是否显示！这是个人说明信息，
+                         看看是否显示！这是个人说明信息，
+                         看看是否显示！这是个人说明信息，看看是否显示！这是个人说明信息，看看是否显示！
+                     </p>
+                 </div>
+                 <p class="buttons">
+                     <a href="" class="button is-info" style="padding: 0 20px">
+                         <span class="icon">
+                             <i class="fa fa-thumbtack"></i>
+                         </span>
+                         <span>{{ article.author.article_set.count }}</span>
+                     </a>
+                     <a href="" class="button is-link">
+                         <i class="fab fa-qq"></i>
+                     </a>
+                     <a href="" class="button is-success">
+                         <i class="fab fa-weixin"></i>
+                     </a>
+                     <a href="" class="button is-danger">
+                         <i class="fab fa-weibo"></i>
+                     </a>
+                     <a href="" class="button is-black">
+                         <i class="fab fa-github"></i>
+                     </a>
+                     <a href="" class="button is-warning">
+                         <i class="fas fa-rss"></i>
+                     </a>
+                 </p>
+             </div>
+         </article>
+     </div>
+
+                    <!-- comments -->
+                    <!-- <div class="page comment">
+
+                        <div class="content">
+                            <h2>发表评论</h2>
+                            <small>电子邮件地址不会被公开。必填项已用*标注</small>
+                        </div>
+
+
+
+                        <form action="" method="POST">
+                            <div class="field">
+                                <label for="" class="label">评论</label>
+                                <div class="control">
+                                    <textarea name="" id="" class="textarea is-radiusless is-shadowless" placeholder="你的评论也可以一针见血"></textarea>
+                                </div>
+                            </div>
+                            <div class="columns">
+                                <div class="column is-6">
+                                    <div class="field">
+                                        <label for="" class="label">姓名*</label>
+                                        <div class="control">
+                                            <input type="text" class=" input is-radiusless is-shadowless">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="column is-6">
+                                    <div class="field">
+                                        <label for="" class="label">电子邮件*</label>
+                                            <div class="control">
+                                                <input type="email" class=" input is-radiusless is-shadowless">
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <div class="control">
+                                  <label class="checkbox">
+                                    <input type="checkbox">
+                                    <small class="is-size-7"> 在此浏览器中保存我的名字、电邮和网站。</small>
+                                  </label>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <div class="control">
+                                    <input type="submit" class="button is-info is-radiusless" value="发表评论" style="padding: 0 20px">
+                                </div>
+                            </div>
+                        </form>
+                    </div> -->
+                    <!-- end comments -->
+
+    <!--登录后 评论 -->
+
+    <div class="card-content">
+            <div class="content">
+                <h2 class="has-text-weight-bold" style="padding:0 20px 0 15px">2 对 “{{ article.title }}；</h2>
+                <!-- <small>电子邮件地址不会被公开。必填项已用*标注</small> -->
+            </div>
+      <div class="page">
+        <article class="media">
+            <figure class="media-left">
+                <p class="image is-48x48">
+                    <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+                </p>
+            </figure>
+            <div class="media-content">
+                <div class="content is-normal">
+                <p style="white-space:normal;">
+                    <strong>幸福关中</strong> <br>
+                    <small class="is-size-7">2019年5月17日</small> &nbsp;<span class="is-size-7">/</span>&nbsp; <a class=" is-size-7" href="">编辑</a> <br>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
+                </p>
+                </div>
+
+                <article class="media">
+
+                        <div class="media-left">
+                            <figure class="image is-48x48">
+                                <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+                            </figure>
+                        </div>
+                        <div class="media-content">
+                            <div class="content">
+                            <p>
+                                <strong>{{ article.author.username }}</strong> <br>
+                                <small class="is-size-7">2019年5月17日</small> &nbsp;<span class="is-size-7">/</span>&nbsp; <a class=" is-size-7" href="">编辑</a> <br>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
+                            </p>
+                            </div>
+                        </div>
+
+                        <div class="media-right">
+                                <a href="" class="button is-radiusless is-shadowless is-normal"> <span class="is-size-7">回复</span> </a>
+                            </div>
+                </article>
+
+            </div>
+            <div class="media-right">
+                <a href="" class="button is-info is-radiusless is-shadowless is-normal"> <span class="is-size-7">回复</span> </a>
+            </div>
+
+
+
+        </article>
+
+        <article class="media">
+                <div class="media-left">
+                    <figure class="image is-48x48">
+                        <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+                    </figure>
+                </div>
+                <div class="media-content">
+                    <div class="content">
+                    <p>
+                        <strong>{{ article.author.username }}</strong> <br>
+                        <small class="is-size-7">2019年5月17日</small> &nbsp;<span class="is-size-7">/</span>&nbsp; <a class=" is-size-7" href="">编辑</a> <br>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
+                    </p>
+                    </div>
+                </div>
+                <div class="media-right">
+                        <a href="" class="button is-info is-radiusless is-shadowless is-normal"> <span class="is-size-7">回复</span> </a>
+                    </div>
+        </article>
+    </div>
+{% if user.is_authenticated %}
+    <div class="page comment">
+        <div class="content">
+            <h2>发表评论</h2>
+
+                <a class="is-size-7" href="">已登入为<span>{{ article.author.username }}</span>。</a> <a class="is-size-7" href="">登出？</a>
+
+                <form action="" method="POST" style="margin-top: 20px">
+                <div class="field">
+                    <label for="" class="label">评论</label>
+                    <div class="control">
+                        <textarea name="" id="" class="textarea is-radiusless is-shadowless" placeholder="你的评论也可以一针见血"></textarea>
+                    </div>
+                </div>
+                <div class="field">
+                        <div class="control">
+                            <input type="submit" class="button is-info is-radiusless" value="发表评论" style="padding: 0 20px">
+                        </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+{% else %}
+                <!-- comments -->
+                <div class="page comment">
+
+                        <div class="content">
+                            <h2>发表评论</h2>
+                            <small>电子邮件地址不会被公开。必填项已用*标注</small>
+                        </div>
+
+                        <form action="" method="POST">
+                            <div class="field">
+                                <label for="" class="label">评论</label>
+                                <div class="control">
+                                    <textarea name="" id="" class="textarea is-radiusless is-shadowless" placeholder="你的评论也可以一针见血"></textarea>
+                                </div>
+                            </div>
+                            <div class="columns">
+                                <div class="column is-6">
+                                    <div class="field">
+                                        <label for="" class="label">姓名*</label>
+                                        <div class="control">
+                                            <input type="text" class=" input is-radiusless is-shadowless">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="column is-6">
+                                    <div class="field">
+                                        <label for="" class="label">电子邮件*</label>
+                                            <div class="control">
+                                                <input type="email" class=" input is-radiusless is-shadowless">
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <div class="control">
+                                  <label class="checkbox">
+                                    <input type="checkbox">
+                                    <small class="is-size-7"> 在此浏览器中保存我的名字、电邮和网站。</small>
+                                  </label>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <div class="control">
+                                    <input type="submit" class="button is-info is-radiusless" value="发表评论" style="padding: 0 20px">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- end comments -->
+ {% endif %}
+    </div>
+
+    <!-- end 评论 -->
+
+
+     </div>
+
+{% endblock %}

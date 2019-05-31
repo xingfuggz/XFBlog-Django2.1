@@ -1,0 +1,274 @@
+{% load staticfiles %}
+{% load blog_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{% static 'blog/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'blog/css/bulma.css' %}">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    {% block head %}
+    <title>幸福关中的博客</title>
+    {% endblock head %}
+    
+</head>
+<body>
+    <!-- header -->
+<header>
+            <nav class="navbar" role="navigation" aria-label="main navigation" style="height:60px;">
+            <div class="container">
+                <div class="navbar-brand" style="height:60px;">
+                    <a href="{% url 'blog:index' %}" class="navbar-item">
+                        <span class="has-text-weight-bold is-size-4 is-uppercase has-text-link">pythonBJ</span>
+                    </a>
+                    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample" style="height:60px">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
+                </div>
+
+                <div id="navbarBasicExample" class="navbar-menu" style="height:60px;">
+                    <div class="navbar-start">
+                        <div class="navbar-item">
+                            <div class="field">
+                                <div class="control has-icons-left has-icons-right">
+                                    <input class="input is-radiusless has-background-light" type="text" placeholder="Text input">
+                                      <span class="icon is-small is-left">
+                                        <i class="fas fa-search"></i>
+                                      </span>
+                                      <!-- <span class="icon is-small is-right">
+                                        <i class="fas fa-check"></i>
+                                      </span> -->
+                                </div>
+                <!-- <p class="help is-success">This username is available</p> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="navbar-end a-size">
+                    {% get_categorys as cattegory_list %}
+                        {% if cattegory_list %}
+                        <a href="{% url 'blog:index' %}" class="navbar-item ">首页</a>
+                        {% for category in cattegory_list %}
+                        <a href="{% url 'blog:category' category.id %}" class="navbar-item">{{ category.name }}</a>
+{#                        <a href="" class="navbar-item">随笔</a>#}
+                            {% endfor %}
+                        {% else %}
+                            <a>还没有添加任何分类</a>
+                        {% endif %}
+                        <!-- <a href="" class="navbar-item">教程</a> -->
+{#                        <div class="navbar-item has-dropdown is-hoverable">#}
+{#                            <a href="" class="navbar-link">教程</a>#}
+{#                           <div class="navbar-dropdown a-size">#}
+{#                               <a href="" class="navbar-item">python教程</a>#}
+{#                               <a href="" class="navbar-item">Django教程</a>#}
+{#                               <a href="" class="navbar-item">Vue教程</a>#}
+{#                               <a href="" class="navbar-item">Typescript教程</a>#}
+{#                           </div>#}
+{#                        </div>#}
+                    </div>
+
+                </div>
+            </div>
+            </nav>
+        </header>
+    <!-- end header -->
+
+        <!-- section -->
+        <section class="section">
+                <div class="container">
+                   <div class="columns">
+                       <div class="column is-9 ">
+                           {% block section %}
+                            <div class="card is-shadowless" style="margin-bottom: 30px;">
+                                <div class="card-image">
+                                    <figure class="image is-3by1">
+                                      <img src="https://bulma.io/images/placeholders/720x240.png" alt="Placeholder image">
+                                    </figure>
+                                </div>
+                                <header class="card-header is-shadowless">
+                                  <a href="detail.html" class="card-header-title card-title">
+                                    爱在春色深深处
+                                  </a>
+                                     
+                                    </header>
+                                    <div class="card-content">
+                                      <div class="content">
+                                        <p class="has-text-justified" style="padding-left: 20px">
+                                            春风轻轻地吹过南国大地，树儿长出绿叶，花儿竞相绽放，湖水泛起波纹，天空蓝蓝，白云飘飘，阳光明媚，
+                                            春风轻轻地吹过南国大地，树儿长出绿叶，花儿竞相绽放，湖水泛起波纹，天空蓝蓝，白云飘飘，阳光明媚，洒…
+                                        </p>
+                                        <a href="" class=" button is-radiusless is-medium is-link is-outlined" >
+                                            <span class="is-size-6">阅读更多</span>
+                                            <span class="icon is-size-6">
+                                                <i class="fas fa-arrow-right"></i> 
+                                            </span>
+                                               
+                                        </a>
+                                      </div>
+                                    </div>
+                                    <footer class="card-footer has-background-light">
+        
+                                        <ul class="is-inline-block">
+                                            <li class="is-inline-block">
+                                                <span class="icon is-small">
+                                                    <i class="fa fa-calendar-alt"></i>
+                                                </span>
+                                                <span><a href="">2019年5月17日</a> </span>
+                                            </li>
+                                            <li class="is-inline-block">
+                                                <span class="icon is-small">
+                                                    <i class="fa fa-user"></i>
+                                                </span>
+                                                <span><a href="">幸福关中</a></span>
+                                            </li>
+                                            <li class="is-inline-block">
+                                                <span class="icon is-small">
+                                                    <i class="fa fa-folder-open"></i>
+                                                </span>
+                                                    <span><a href="">Django教程</a></span>
+                                            </li>
+                                            <li class="is-inline-block">
+                                                <span class="icon is-small">
+                                                    <i class="fa fa-comments"></i>
+                                                </span>
+                                                <span><a href="">发表评论</a></span>
+                                            </li>
+                                            <li class="is-inline-block">
+                                                <span class="icon is-small">
+                                                    <i class="fa fa-pencil-alt"></i>
+                                                </span>
+                                                <span><a href="">编辑</a></span>
+                                            </li>
+                                        </ul>
+                                    </footer>
+                            </div>
+                            {% endblock section %}
+                       </div>
+        
+                       <div class="column is-3  ">
+                        <div class="box is-radiusless is-paddingless panel-head-backcolor is-shadowless">
+        <h1 class=" has-text-weight-bold">近期文章</h1>
+        <div class="box-content">
+            <ul>
+                <li>
+                 <a href="">爱在春色深深处</a>
+                 <time>2019年5月17日</time>
+                </li>
+                <li>
+                     <a href="">爱在春色深深处</a>
+                     <time>2019年5月17日</time>
+                </li>
+                <li>
+                     <a href="">爱在春色深深处</a>
+                     <time>2019年5月17日</time>
+                </li>
+                <li>
+                 <a href="">爱在春色深深处爱在春色深深处爱在春色深深处爱在春色深深处爱在春色深深处</a>
+                 <time>2019年5月17日</time>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+
+    <div class="box is-radiusless is-paddingless panel-head-backcolor is-shadowless">
+         <h1 class=" has-text-weight-bold">文章归档</h1>
+         <div class="box-content">
+         {% archives as blog_dates %}
+             <ul>
+                 {% for blog_date in blog_dates %}
+                 <li>
+                  <a href="{% url 'blog:dates' blog_date.year blog_date.month%}">{{ blog_date|date:"Y年m月" }} </a><span>({% archives_num blog_date.year blog_date.month %})</span>
+
+                 </li>
+                 {% endfor %}
+             </ul>
+
+         </div>
+     </div>
+
+     <div class="box is-radiusless is-paddingless panel-head-backcolor is-shadowless">
+             <h1 class=" has-text-weight-bold">分类目录</h1>
+             <div class="box-content">
+             {% get_categorys as cattegory_list %}
+                 <ul>
+                 {% if cattegory_list %}
+                     {% for category in cattegory_list %}
+                     <li>
+                      <a href="{% url 'blog:category' category.id %}">{{ category.name }} </a><span>({% get_articel_nums category.id %})</span>
+                     </li>
+                     {% endfor %}
+                 {% else %}
+                      <li>
+                      暂无分类
+                     </li>
+                 {% endif %}
+{#{% get_categorys %}#}
+                 </ul>
+
+             </div>
+     </div>
+
+     <div class="box is-radiusless is-paddingless panel-head-backcolor is-shadowless">
+             <h1 class=" has-text-weight-bold">标签云</h1>
+             <div class="box-content">
+                     <div class="tags">
+                             <span class="tag">One</span>
+                             <span class="tag">Two</span>
+                             <span class="tag">Three</span>
+                             <span class="tag">Four</span>
+                             <span class="tag">Five</span>
+                             <span class="tag">Six</span>
+                             <span class="tag">Seven</span>
+                             <span class="tag">Eight</span>
+                             <span class="tag">Nine</span>
+                             <span class="tag">Ten</span>
+                             <span class="tag">Eleven</span>
+                             <span class="tag">Twelve</span>
+                             <span class="tag">Thirteen</span>
+                             <span class="tag">Fourteen</span>
+                             <span class="tag">Fifteen</span>
+                             <span class="tag">Sixteen</span>
+                             <span class="tag">Seventeen</span>
+                             <span class="tag">Eighteen</span>
+                             <span class="tag">Nineteen</span>
+                             <span class="tag">Twenty</span>
+                           </div>
+
+             </div>
+     </div>
+
+     <div class="box is-radiusless is-paddingless panel-head-backcolor is-shadowless">
+             <h1 class=" has-text-weight-bold">功能</h1>
+             <div class="box-content">
+                 <ul>
+                     <li>
+                      <a href="">管理站点 </a>
+                      <!-- <time>2019年5月17日</time> -->
+                     </li>
+                     <li>
+                         <a href="">登出</a>
+                     </li>
+                     <li>
+                             <a href="">文章RSS</a>
+                         </li>
+                         <li>
+                             <a href="">评论RSS</a>
+                         </li>
+                 </ul>
+
+             </div>
+     </div>
+                       </div>
+                   </div>
+                </div>
+            </section>
+            <!-- end section -->
+
+{% include 'blog/footer.html' %}
+    
+</body>
+</html>

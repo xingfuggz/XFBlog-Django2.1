@@ -1,0 +1,112 @@
+<div class="box is-radiusless is-paddingless panel-head-backcolor is-shadowless">
+        <h1 class=" has-text-weight-bold">近期文章</h1>
+        <div class="box-content">
+            <ul>
+                <li>
+                 <a href="">爱在春色深深处</a>
+                 <time>2019年5月17日</time>
+                </li>
+                <li>
+                     <a href="">爱在春色深深处</a>
+                     <time>2019年5月17日</time>
+                </li>
+                <li>
+                     <a href="">爱在春色深深处</a>
+                     <time>2019年5月17日</time>
+                </li>
+                <li>
+                 <a href="">爱在春色深深处爱在春色深深处爱在春色深深处爱在春色深深处爱在春色深深处</a>
+                 <time>2019年5月17日</time>
+                </li>
+            </ul>
+             
+        </div>
+    </div>
+
+    <div class="box is-radiusless is-paddingless panel-head-backcolor is-shadowless">
+         <h1 class=" has-text-weight-bold">文章归档</h1>
+         <div class="box-content">
+             <ul>
+{#                 {% for blog_date in blog_dates %}#}
+                 <li>
+{#                  <a href="{% url 'blog:dates' blog_date.year blog_date.month%}">{{ blog_date|date:"Y年m月" }} </a><span>(4)</span>#}
+
+                 </li>
+{#                 {% endfor %}#}
+
+{#                 <li>#}
+{#                     <a href="">2019年五月 </a><span>(2)</span>#}
+{#                 </li>#}
+
+
+             </ul>
+              
+         </div>
+     </div>
+
+     <div class="box is-radiusless is-paddingless panel-head-backcolor is-shadowless">
+             <h1 class=" has-text-weight-bold">分类目录</h1>
+             <div class="box-content">
+                 <ul>
+                     {% for category in category_list %}
+                     <li>
+                      <a href="">{{ category.name }} </a><span>({{ category_list.count }})</span>
+                     </li>
+                     {% endfor %}
+
+                     
+                 </ul>
+                  
+             </div>
+     </div>
+
+     <div class="box is-radiusless is-paddingless panel-head-backcolor is-shadowless">
+             <h1 class=" has-text-weight-bold">标签云</h1>
+             <div class="box-content">
+                     <div class="tags">
+                             <span class="tag">One</span>
+                             <span class="tag">Two</span>
+                             <span class="tag">Three</span>
+                             <span class="tag">Four</span>
+                             <span class="tag">Five</span>
+                             <span class="tag">Six</span>
+                             <span class="tag">Seven</span>
+                             <span class="tag">Eight</span>
+                             <span class="tag">Nine</span>
+                             <span class="tag">Ten</span>
+                             <span class="tag">Eleven</span>
+                             <span class="tag">Twelve</span>
+                             <span class="tag">Thirteen</span>
+                             <span class="tag">Fourteen</span>
+                             <span class="tag">Fifteen</span>
+                             <span class="tag">Sixteen</span>
+                             <span class="tag">Seventeen</span>
+                             <span class="tag">Eighteen</span>
+                             <span class="tag">Nineteen</span>
+                             <span class="tag">Twenty</span>
+                           </div>
+                  
+             </div>
+     </div>
+
+     <div class="box is-radiusless is-paddingless panel-head-backcolor is-shadowless">
+             <h1 class=" has-text-weight-bold">功能</h1>
+             <div class="box-content">
+                 <ul>
+                     <li>
+                      <a href="">管理站点 </a> 
+                      <!-- <time>2019年5月17日</time> -->
+                     </li>
+                     <li>
+                         <a href="">登出</a>
+                     </li>
+                     <li>
+                             <a href="">文章RSS</a>
+                         </li>
+                         <li>
+                             <a href="">评论RSS</a>
+                         </li>
+                 </ul>
+                  
+             </div>
+     </div>

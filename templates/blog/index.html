@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block head %}
+  <title>首页 幸福关中的博客 </title>
+{% endblock head %}
+
+{% block section %}
+    {% for article in article_list %}
+  <div class="card is-shadowless" style="margin-bottom: 30px;">
+    {% if article.picture %}
+      <div class="card-image">
+          <figure class="image is-3by1">
+              <img src="{{ MEDIA_URL }}{{ article.picture }}" alt="{{ article.title }}">
+          </figure>
+      </div>
+    {% endif %}
+      <header class="card-header is-shadowless">
+          <a href="{% url 'blog:detail' article.id %}" class="card-header-title card-title">
+              {{ article.title }}
+          </a><span class="tag is-info is-radiusless">{{ article.get_has_reprint_display }}</span>
+      </header>
+      <div class="card-content">
+          <div class="content">
+              <p class="has-text-justified" style="padding-left: 20px">
+                  {{ article.desc }}
+              </p>
+              <a href="{% url 'blog:detail' article.id %}" class=" button is-radiusless is-medium is-link is-outlined" >
+                  <span class="is-size-6">阅读更多</span>
+                  <span class="icon is-size-6">
+                      <i class="fas fa-arrow-right"></i>
+                  </span>
+              </a>
+          </div>
+      </div>
+      <footer class="card-footer has-background-light">
+          <ul class="is-inline-block">
+              <li class="is-inline-block">
+                  <span class="icon is-small">
+                      <i class="fa fa-calendar-alt"></i>
+                  </span>
+                  <span>{{ article.add_date }} </span>
+              </li>
+              <li class="is-inline-block">
+                  <span class="icon is-small">
+                      <i class="fa fa-user"></i>
+                  </span>
+                  <span><a href="">{{ article.author }}</a></span>
+              </li>
+              <li class="is-inline-block">
+                  <span class="icon is-small">
+                      <i class="fa fa-folder-open"></i>
+                  </span>
+                  <span><a href="{% url 'blog:category' article.category.id %}">{{ article.category.name }}</a></span>
+              </li>
+              <li class="is-inline-block">
+                  <span class="icon is-small">
+                      <i class="fa fa-comments"></i>
+                  </span>
+                  <span><a href="">发表评论</a></span>
+              </li>
+              <li class="is-inline-block">
+                  <span class="icon is-small">
+                      <i class="fa fa-book-reader"></i>
+                  </span>
+                  <span>阅读({{ article.get_read_num }})</span>
+              </li>
+              {% if user.is_authenticated %}
+              <li class="is-inline-block">
+                  <span class="icon is-small">
+                      <i class="fa fa-pencil-alt"></i>
+                  </span>
+                  <span><a href="">编辑</a></span>
+              </li>
+              {% endif %}
+          </ul>
+      </footer>
+  </div>
+    {% endfor %}
+
+    <div style="padding-top: 30px">
+        <nav class="pagination is-centered is-medium" role="navigation" aria-label="pagination">
+            {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}" class="pagination-previous is-radiusless has-background-white">Previous</a>
+             {% endif %}
+            {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.paginator.num_pages }}" class="pagination-next is-radiusless has-background-white">Next page</a>
+            {% endif %}
+
+            <ul class="pagination-list">
+                {% for page_num in page_obj.paginator.page_range %}
+                    {% if page_obj.paginator.num_pages %}
+                <li><a href="?page={{ page_num }}" class="pagination-link is-radiusless has-background-white" aria-label="Goto page 1">
+                    {{ page_num }}</a></li>
+                    {% endif %}
+{#                <li><span class="pagination-ellipsis">&hellip;</span></li>#}
+{#                <li><a class="pagination-link has-background-white is-radiusless" aria-label="Goto page 45">45</a></li>#}
+{#                <li><a class="pagination-link is-current is-radiusless" aria-label="Page 46" aria-current="page">46</a></li>#}
+{#                <li><a class="pagination-link has-background-white is-radiusless" aria-label="Goto page 47">47</a></li>#}
+{#                <li><span class="pagination-ellipsis">&hellip;</span></li>#}
+{#                <li><a class="pagination-link has-background-white is-radiusless" aria-label="Goto page 86">86</a></li>#}
+                {% endfor %}
+            </ul>
+        </nav>
+    </div>
+
+
+{% endblock section %}
