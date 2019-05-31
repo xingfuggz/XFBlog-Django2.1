@@ -6,6 +6,83 @@
 
 {% block section %}
     <div id="container" class="is-fullwidth"></div>
+
+<div class="section">
+{#    今天24小时的热门博客#}
+    <nav class="panel">
+  <p class="panel-heading has-background-white">
+   当日热门点击
+  </p>
+{% for hot_data in today_hot_data %}
+  <a class="panel-block" href="{% url 'blog:detail' hot_data.object_id %}">
+    <span class="panel-icon">
+      <i class="fas fa-book" aria-hidden="true"></i>
+    </span>
+    {{ hot_data.content_object }} &nbsp;<span class="tag is-info is-small">{{ hot_data.read_nums }}</span>
+  </a>
+{% empty %}
+    <a class="panel-block">今天暂时没有热门博客</a>
+{% endfor %}
+</nav>
+
+{#    昨日热门博客#}
+    <nav class="panel">
+  <p class="panel-heading has-background-white">
+   昨日热门点击
+  </p>
+{% for hot_data in yesterday_hot_data %}
+  <a class="panel-block" href="{% url 'blog:detail' hot_data.object_id %}">
+    <span class="panel-icon">
+      <i class="fas fa-book" aria-hidden="true"></i>
+    </span>
+    {{ hot_data.content_object }} &nbsp;<span class="tag is-info is-small">{{ hot_data.read_nums }}</span>
+  </a>
+{% empty %}
+    <a class="panel-block">昨天没有热门博客</a>
+{% endfor %}
+
+</nav>
+
+
+{#    一周热门博客#}
+    <nav class="panel">
+  <p class="panel-heading has-background-white">
+   本周热门点击
+  </p>
+{% for hot_article in hot_article_for_seven_days %}
+  <a class="panel-block" href="{% url 'blog:detail' hot_article.id %}">
+    <span class="panel-icon">
+      <i class="fas fa-book" aria-hidden="true"></i>
+    </span>
+    {{ hot_article.title }} &nbsp;<span class="tag is-info is-small">{{ hot_article.read_nums_sum }}</span>
+  </a>
+{% empty %}
+    <a class="panel-block">本周没有热门博客</a>
+{% endfor %}
+
+</nav>
+
+
+{#    一周热门博客#}
+    <nav class="panel">
+  <p class="panel-heading has-background-white">
+   本月热门点击
+  </p>
+{% for hot_article in hot_article_for_month_days %}
+  <a class="panel-block" href="{% url 'blog:detail' hot_article.id %}">
+    <span class="panel-icon">
+      <i class="fas fa-book" aria-hidden="true"></i>
+    </span>
+    {{ hot_article.title }} &nbsp;<span class="tag is-info is-small">{{ hot_article.read_nums_sum }}</span>
+  </a>
+{% empty %}
+    <a class="panel-block">本月没有热门博客</a>
+{% endfor %}
+
+</nav>
+
+</div>
+
     <script>
         // 图表配置
         var options = {
@@ -18,6 +95,7 @@
             xAxis: {
                 categories: {{ dates|safe }},   // x 轴分类
                 {#tickmarkPlacement:'on',#}
+                title:{text:'前7日阅读量变化'}
             },
             yAxis: {
                 title: {

@@ -4,10 +4,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.contenttypes.models import ContentType
 from django.core.paginator import Paginator
 from django.views.generic import ListView, DetailView, CreateView
+from django.utils import timezone
+from django.db.models import Sum   # 引用求和的方法
 # Create your views here.
 import markdown
+import datetime
 from .models import Article, Category, Topic
-from read_record.utils import read_record_once_read, get_seven_days_data  # 计数
+from read_record.utils import read_record_once_read, get_seven_days_data,\
+    get_today_hot_data, get_yesterday_hot_data  # 计数
 
 
 class IndexView(ListView):
@@ -67,8 +71,27 @@ def blog_with_dates(request, year, month):
     return render(request, 'blog/page.html', locals())
 
 
+def get_seven_days_hot_articles(i):
+    """七日阅读统计方法"""
+    today = timezone.now().date()
+    date = today - datetime.timedelta(days=i)
+    article_list = Article.objects.filter(read_details__date__lt=today, read_details__date__gte=date)\
+        .values('id', 'title').annotate(read_nums_sum=Sum('read_details__read_nums'))\
+        .order_by('-read_nums_sum')
+    return article_list[:7]
+
+
 def read_num_s(request):
     """统计计数显示页面"""
-    article_content_type = ContentType.objects.get_for_model(Article)
+    article_content_type = ContentType.objects.get_for_model(Article)  # 获取文章模型
     dates, read_num_s = get_seven_days_data(article_content_type)
+
+    # 当日热门文章统计显示
+    today_hot_data = get_today_hot_data(article_content_type)
+    # 昨日热门文章统计显示
+    yesterday_hot_data = get_yesterday_hot_data(article_content_type)
+    # 七日热门阅读统计显示
+    hot_article_for_seven_days = get_seven_days_hot_articles(7)
+    # 一个月内热门阅读统计显示
+    hot_article_for_month_days = get_seven_days_hot_articles(30)
     return render(request, 'blog/read_nums.html', locals())

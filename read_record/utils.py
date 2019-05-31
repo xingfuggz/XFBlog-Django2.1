@@ -2,6 +2,7 @@ from django.contrib.contenttypes.models import ContentType
 from .models import ReadNum, ReadDetail
 from django.utils import timezone
 from django.db.models import Sum   # 引用求和的方法
+import datetime
 
 
 def read_record_once_read(request, obj):
@@ -39,7 +40,6 @@ def get_seven_days_data(content_type):
     today = timezone.now().date()
     dates = []
     read_num_s = []
-    import datetime
     for i in range(7, 0, -1):
         # timedelta()是计算时间差值的方法，括号内需传入差值所遵从的条件
         date = today - datetime.timedelta(days=i)
@@ -49,3 +49,21 @@ def get_seven_days_data(content_type):
         result = read_details.aggregate(read_nums_sum=Sum('read_nums'))
         read_num_s.append(result['read_nums_sum'] or 0)
     return dates, read_num_s
+
+
+def get_today_hot_data(content_type):
+    """ 当日热门文章 """
+    today = timezone.now().date()  #  获取到当天的数据
+    read_details = ReadDetail.objects.filter(content_type=content_type, date=today).order_by('-read_nums')
+    return read_details[:7]
+
+
+def get_yesterday_hot_data(content_type):
+    """昨日热门文章"""
+    today = timezone.now().date()  # 获取到当天的数据
+    yesterday = today - datetime.timedelta(days=1)
+    read_details = ReadDetail.objects.filter(content_type=content_type, date=yesterday).order_by('-read_nums')
+    return read_details[:7]
+
+
+

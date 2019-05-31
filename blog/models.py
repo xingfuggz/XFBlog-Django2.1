@@ -1,10 +1,10 @@
 from django.db import models
+from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import User
 from mdeditor.fields import MDTextField
 # Create your models here.
-from read_record.models import ReadNum
-from read_record.models import ReadNumExpandMethod
+from read_record.models import ReadNum, ReadDetail, ReadNumExpandMethod
 
 
 class Category(models.Model):
@@ -52,6 +52,7 @@ class Article(models.Model, ReadNumExpandMethod):
     title = models.CharField('文章标题', max_length=100)
     slug = models.SlugField('slug', max_length=100, blank=True, null=True, help_text="链接后缀，必须为英文字符")
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="作者")
+    read_details = GenericRelation(ReadDetail)  # 关联到这个模型，可以很方便的访问关联模型的所有数据
     desc = models.TextField(max_length=100, blank=True, help_text="文章简介，字数保持在100以内！")
     topic = models.ForeignKey('Topic', on_delete=models.CASCADE, verbose_name="专题", blank=True, null=True)
     category = models.ForeignKey('Category', on_delete=models.CASCADE, verbose_name="分类")
