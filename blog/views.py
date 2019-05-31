@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, HttpResponse, redirect, 
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.contenttypes.models import ContentType
+from django.core.cache import cache, caches
 from django.core.paginator import Paginator
 from django.views.generic import ListView, DetailView, CreateView
 from django.utils import timezone
@@ -86,12 +87,22 @@ def read_num_s(request):
     article_content_type = ContentType.objects.get_for_model(Article)  # 获取文章模型
     dates, read_num_s = get_seven_days_data(article_content_type)
 
+    # 获取七日热门博客的缓存数据
+    hot_article_for_seven_days = cache.get('hot_article_for_seven_days')
+    if hot_article_for_seven_days is None:
+        hot_article_for_seven_days = get_seven_days_hot_articles(7)
+        cache.set('hot_article_for_seven_days', hot_article_for_seven_days, 3600)
+        print('计算缓存')
+    else:
+        print('使用缓存')
+
+
     # 当日热门文章统计显示
     today_hot_data = get_today_hot_data(article_content_type)
     # 昨日热门文章统计显示
     yesterday_hot_data = get_yesterday_hot_data(article_content_type)
     # 七日热门阅读统计显示
-    hot_article_for_seven_days = get_seven_days_hot_articles(7)
+    # hot_article_for_seven_days = hot_article_for_seven_days
     # 一个月内热门阅读统计显示
     hot_article_for_month_days = get_seven_days_hot_articles(30)
     return render(request, 'blog/read_nums.html', locals())
