@@ -88,8 +88,4 @@ class Topic(models.Model):
     def __str__(self):
         return self.name
         
-        
-# class ReadNum(models.Model):
-#     """文章阅读计数"""
-#     read_nums = models.IntegerField(default=0)
-#     article = models.OneToOneField(Article, on_delete=models.DO_NOTHING)
+
