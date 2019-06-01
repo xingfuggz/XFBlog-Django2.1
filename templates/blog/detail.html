@@ -135,10 +135,15 @@
 
     <div class="card-content">
             <div class="content">
-                <h2 class="has-text-weight-bold" style="padding:0 20px 0 15px">2 对 “{{ article.title }}；</h2>
+                {% if user.is_authenticated %}
+                <h2 class="has-text-weight-bold1" style="padding:0 20px 0 15px">{{ request.user }}欢迎您对 “{{ article.title }}；</h2>
                 <!-- <small>电子邮件地址不会被公开。必填项已用*标注</small> -->
+                    {% else %}
+                    <h2 class="has-text-weight-bold" style="padding:0 20px 0 15px">评论列表</h2>
+                {% endif %}
             </div>
       <div class="page">
+        {% for comment in comments %}
         <article class="media">
             <figure class="media-left">
                 <p class="image is-48x48">
@@ -148,33 +153,33 @@
             <div class="media-content">
                 <div class="content is-normal">
                 <p style="white-space:normal;">
-                    <strong>幸福关中</strong> <br>
-                    <small class="is-size-7">2019年5月17日</small> &nbsp;<span class="is-size-7">/</span>&nbsp; <a class=" is-size-7" href="">编辑</a> <br>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
+                    <strong>{{ comment.author }}</strong> <br>
+                    <small class="is-size-7">{{ comment.comment_time }}</small> &nbsp;<span class="is-size-7">/</span>&nbsp; <a class=" is-size-7" href="">编辑</a> <br>
+                    {{ comment.comment_text }}
                 </p>
                 </div>
 
-                <article class="media">
-
-                        <div class="media-left">
-                            <figure class="image is-48x48">
-                                <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
-                            </figure>
-                        </div>
-                        <div class="media-content">
-                            <div class="content">
-                            <p>
-                                <strong>{{ article.author.username }}</strong> <br>
-                                <small class="is-size-7">2019年5月17日</small> &nbsp;<span class="is-size-7">/</span>&nbsp; <a class=" is-size-7" href="">编辑</a> <br>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
-                            </p>
-                            </div>
-                        </div>
-
-                        <div class="media-right">
-                                <a href="" class="button is-radiusless is-shadowless is-normal"> <span class="is-size-7">回复</span> </a>
-                            </div>
-                </article>
+{#                <article class="media">#}
+{##}
+{#                        <div class="media-left">#}
+{#                            <figure class="image is-48x48">#}
+{#                                <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">#}
+{#                            </figure>#}
+{#                        </div>#}
+{#                        <div class="media-content">#}
+{#                            <div class="content">#}
+{#                            <p>#}
+{#                                <strong>{{ article.author.username }}</strong> <br>#}
+{#                                <small class="is-size-7">2019年5月17日</small> &nbsp;<span class="is-size-7">/</span>&nbsp; <a class=" is-size-7" href="">编辑</a> <br>#}
+{#                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.#}
+{#                            </p>#}
+{#                            </div>#}
+{#                        </div>#}
+{##}
+{#                        <div class="media-right">#}
+{#                                <a href="" class="button is-radiusless is-shadowless is-normal"> <span class="is-size-7">回复</span> </a>#}
+{#                            </div>#}
+{#                </article>#}
 
             </div>
             <div class="media-right">
@@ -184,39 +189,26 @@
 
 
         </article>
+            {% empty %}
+            暂无评论
+        {% endfor %}
 
-        <article class="media">
-                <div class="media-left">
-                    <figure class="image is-48x48">
-                        <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
-                    </figure>
-                </div>
-                <div class="media-content">
-                    <div class="content">
-                    <p>
-                        <strong>{{ article.author.username }}</strong> <br>
-                        <small class="is-size-7">2019年5月17日</small> &nbsp;<span class="is-size-7">/</span>&nbsp; <a class=" is-size-7" href="">编辑</a> <br>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
-                    </p>
-                    </div>
-                </div>
-                <div class="media-right">
-                        <a href="" class="button is-info is-radiusless is-shadowless is-normal"> <span class="is-size-7">回复</span> </a>
-                    </div>
-        </article>
     </div>
 {% if user.is_authenticated %}
     <div class="page comment">
         <div class="content">
             <h2>发表评论</h2>
 
-                <a class="is-size-7" href="">已登入为<span>{{ article.author.username }}</span>。</a> <a class="is-size-7" href="">登出？</a>
+                <a class="is-size-7" href="">已登入为<span>{{ request.user }}</span>。</a> <a class="is-size-7" href="">登出？</a>
 
-                <form action="" method="POST" style="margin-top: 20px">
-                <div class="field">
-                    <label for="" class="label">评论</label>
+                <form action="{% url 'comment:update_comment' %}" method="POST" style="margin-top: 20px">
+                    {% csrf_token %}
+                <div class="field" id="comment">
+                    <label for="" class="label">{{ request.user }}, 欢迎评论</label>
                     <div class="control">
-                        <textarea name="" id="" class="textarea is-radiusless is-shadowless" placeholder="你的评论也可以一针见血"></textarea>
+                        <textarea name="comment_text" id="" class="textarea is-radiusless is-shadowless" placeholder="你的评论也可以一针见血"></textarea>
+                        <input type="hidden" name="object_id" value="{{ article.id }}">
+                        <input type="hidden" name="content_type" value="article">
                     </div>
                 </div>
                 <div class="field">
@@ -231,56 +223,9 @@
 
 {% else %}
                 <!-- comments -->
-    <div class="page comment">
 
-                        <div class="content">
-                            <h2>发表评论</h2>
-                            <small>电子邮件地址不会被公开。必填项已用*标注</small>
-                        </div>
-
-                        <form action="" method="POST">
-                            <div class="field">
-                                <label for="" class="label">评论</label>
-                                <div class="control">
-                                    <textarea name="" id="" class="textarea is-radiusless is-shadowless" placeholder="你的评论也可以一针见血"></textarea>
-                                </div>
-                            </div>
-                            <div class="columns">
-                                <div class="column is-6">
-                                    <div class="field">
-                                        <label for="" class="label">姓名*</label>
-                                        <div class="control">
-                                            <input type="text" class=" input is-radiusless is-shadowless">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="column is-6">
-                                    <div class="field">
-                                        <label for="" class="label">电子邮件*</label>
-                                            <div class="control">
-                                                <input type="email" class=" input is-radiusless is-shadowless">
-                                            </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="field">
-                                <div class="control">
-                                  <label class="checkbox">
-                                    <input type="checkbox">
-                                    <small class="is-size-7"> 在此浏览器中保存我的名字、电邮和网站。</small>
-                                  </label>
-                                </div>
-                            </div>
-
-                            <div class="field">
-                                <div class="control">
-                                    <input type="submit" class="button is-info is-radiusless" value="发表评论" style="padding: 0 20px">
-                                </div>
-                            </div>
-                        </form>
-                    </div>
                     <!-- end comments -->
+    <p>还没有登录，请<a href="{% url 'account:login' %}">登录</a> 后发表评论！</p>
  {% endif %}
     </div>
 

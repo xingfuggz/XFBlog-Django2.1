@@ -24,6 +24,7 @@ urlpatterns = [
     path('blog/', include('blog.urls')),
     path('mdeditor/', include('mdeditor.urls')),
     path('account/', include('account.urls')),
+    path('comment/', include('comment.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 

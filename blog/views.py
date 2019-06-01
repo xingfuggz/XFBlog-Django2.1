@@ -1,6 +1,4 @@
 from django.shortcuts import render, get_object_or_404, HttpResponse, redirect, HttpResponseRedirect
-from django.urls import reverse_lazy, reverse
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.contenttypes.models import ContentType
 from django.core.cache import cache, caches
 from django.core.paginator import Paginator
@@ -11,6 +9,7 @@ from django.db.models import Sum   # 引用求和的方法
 import markdown
 import datetime
 from .models import Article, Category, Topic
+from comment.models import Comment
 from read_record.utils import read_record_once_read, get_seven_days_data,\
     get_today_hot_data, get_yesterday_hot_data  # 计数
 
@@ -49,10 +48,14 @@ def detail_blog(request, article_id):
         'markdown.extensions.toc',   # 自动生成目录
     ], safe_mode=True, enable_attributes=False)
 
-    read_cookie_key = read_record_once_read(request, article)
-
     per_blog = Article.objects.filter(pub_date__gt=article.pub_date, has_pub=0).last()   # 上一篇
     next_blog = Article.objects.filter(pub_date__lt=article.pub_date, has_pub=0).first()  # 下一篇
+    # 获取到评论列表数据
+    article_content_type = ContentType.objects.get_for_model(article)
+    comments = Comment.objects.filter(content_type=article_content_type, object_id=article_id)
+
+    # 获取到阅读的cookie
+    read_cookie_key = read_record_once_read(request, article)
     response = render(request, 'blog/detail.html', locals())
     response.set_cookie(read_cookie_key, 'true')  # 阅读cookie标记
     return response
