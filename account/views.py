@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse, redirect
+from django.shortcuts import render, HttpResponse, redirect, reverse, HttpResponseRedirect
 from django.contrib import auth
 # Create your views here.
 from .forms import LoginForm
@@ -8,13 +8,19 @@ def login(request):
     if request.method != "POST":
         form = LoginForm()
     else:
-        username = request.POST['username']
-        password = request.POST['password']
-        user = auth.authenticate(request, username=username, password=password)
-        if user is not None:
-            auth.login(request, user)
-            return redirect('blog:index')
+        form = LoginForm(data=request.POST)
+        username = form.cleaned_data['username']
+        password = form.cleaned_data['password']
+        if form.is_valid():
+            user = auth.authenticate(request, username=username, password=password)
+            if user is not None:
+                auth.login(request, user)
+                return redirect(request.GET.get('from', reverse('blog:index')))
+            else:
+                form.add_error(None, '用户名或密码错误')
+                return render(request, 'account/login.html', {'form':form})
         else:
-            return HttpResponse("登录不成功，请检查用户名密码是否正确")
+            return HttpResponse('你填写的用户名密码类型错误')
     context = {'form': form}
     return render(request, 'account/login.html', context)
+

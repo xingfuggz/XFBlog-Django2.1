@@ -245,19 +245,31 @@
              <h1 class=" has-text-weight-bold">功能</h1>
              <div class="box-content">
                  <ul>
-                     <li>
+
+                     {% if user.is_authenticated %}
+                         <li>
                       <a href="">管理站点 </a>
                       <!-- <time>2019年5月17日</time> -->
                      </li>
                      <li>
-                         <a href="">登出</a>
+                         <a href="{% url 'logout' %}">登出</a>
+                     </li>
+                         {% else %}
+                         <li>
+                      <a href="">注册 </a>
+                      <!-- <time>2019年5月17日</time> -->
                      </li>
                      <li>
-                             <a href="">文章RSS</a>
-                         </li>
-                         <li>
-                             <a href="">评论RSS</a>
-                         </li>
+                         <a href="{% url 'account:login' %}">登录</a>
+                     </li>
+                     {% endif %}
+
+                     <li>
+                         <a href="">文章RSS</a>
+                     </li>
+                     <li>
+                         <a href="">评论RSS</a>
+                     </li>
                  </ul>
 
              </div>

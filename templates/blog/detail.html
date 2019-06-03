@@ -199,7 +199,7 @@
         <div class="content">
             <h2>发表评论</h2>
 
-                <a class="is-size-7" href="">已登入为<span>{{ request.user }}</span>。</a> <a class="is-size-7" href="">登出？</a>
+                <a class="is-size-7" href="">已登入为<span>{{ request.user }}</span>。</a> <a class="is-size-7" href="{% url 'logout' %}">登出？</a>
 
                 <form action="{% url 'comment:update_comment' %}" method="POST" style="margin-top: 20px">
                     {% csrf_token %}
@@ -225,7 +225,7 @@
                 <!-- comments -->
 
                     <!-- end comments -->
-    <p>还没有登录，请<a href="{% url 'account:login' %}">登录</a> 后发表评论！</p>
+    <p>还没有登录，请<a href="{% url 'account:login' %}?from={{ request.get_full_path }}">登录</a> 后发表评论！</p>
  {% endif %}
     </div>
 
