@@ -3,6 +3,8 @@
 {% block head %}
   <title>{{ article.title }} -幸福关中的博客 </title>
   <link rel="stylesheet" type="text/css" href="{% static 'blog/css/code.css' %}">
+{#  <script src="https://cdn.ckeditor.com/ckeditor5/12.1.0/classic/ckeditor.js"></script>#}
+
 {% endblock head %}
 
 {% block section %}
@@ -159,27 +161,6 @@
                 </p>
                 </div>
 
-{#                <article class="media">#}
-{##}
-{#                        <div class="media-left">#}
-{#                            <figure class="image is-48x48">#}
-{#                                <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">#}
-{#                            </figure>#}
-{#                        </div>#}
-{#                        <div class="media-content">#}
-{#                            <div class="content">#}
-{#                            <p>#}
-{#                                <strong>{{ article.author.username }}</strong> <br>#}
-{#                                <small class="is-size-7">2019年5月17日</small> &nbsp;<span class="is-size-7">/</span>&nbsp; <a class=" is-size-7" href="">编辑</a> <br>#}
-{#                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.#}
-{#                            </p>#}
-{#                            </div>#}
-{#                        </div>#}
-{##}
-{#                        <div class="media-right">#}
-{#                                <a href="" class="button is-radiusless is-shadowless is-normal"> <span class="is-size-7">回复</span> </a>#}
-{#                            </div>#}
-{#                </article>#}
 
             </div>
             <div class="media-right">
@@ -206,10 +187,10 @@
                 <div class="field" id="comment">
                     <label for="" class="label">{{ request.user }}, 欢迎评论</label>
                     <div class="control">
-                        <textarea name="comment_text" id="" class="textarea is-radiusless is-shadowless" placeholder="你的评论也可以一针见血"></textarea>
-                        <input type="hidden" name="object_id" value="{{ article.id }}">
-                        <input type="hidden" name="content_type" value="article">
+                        {{ form }}
+                        {{ form.media }}
                     </div>
+
                 </div>
                 <div class="field">
                         <div class="control">
@@ -225,12 +206,17 @@
                 <!-- comments -->
 
                     <!-- end comments -->
-    <p>还没有登录，请<a href="{% url 'account:login' %}?from={{ request.get_full_path }}">登录</a> 后发表评论！</p>
+    <p>
+        还没有登录，请
+        <a class="button is-success is-small" href="{% url 'account:login' %}?from={{ request.get_full_path }}">登录</a>
+        <span>or</span>
+        <a class="button is-info is-small" href="{% url 'account:register' %}?from={{ request.get_full_path }}">注册</a>
+        后发表评论！
+    </p>
  {% endif %}
     </div>
 
     <!-- end 评论 -->
-
 
      </div>
 

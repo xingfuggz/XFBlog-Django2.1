@@ -10,6 +10,7 @@ import markdown
 import datetime
 from .models import Article, Category, Topic
 from comment.models import Comment
+from comment.forms import CommentForm
 from read_record.utils import read_record_once_read, get_seven_days_data,\
     get_today_hot_data, get_yesterday_hot_data  # 计数
 
@@ -54,6 +55,8 @@ def detail_blog(request, article_id):
     article_content_type = ContentType.objects.get_for_model(article)
     comments = Comment.objects.filter(content_type=article_content_type, object_id=article_id)
 
+    # 获取到评论框
+    form = CommentForm(initial={'content_type': article_content_type.model, 'object_id': article_id})
     # 获取到阅读的cookie
     read_cookie_key = read_record_once_read(request, article)
     response = render(request, 'blog/detail.html', locals())
