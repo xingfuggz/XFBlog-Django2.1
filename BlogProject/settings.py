@@ -141,4 +141,3 @@ CACHES = {
         'LOCATION': 'my_cache_table',
     }
 }
-

@@ -16,7 +16,7 @@ def login(request):
             auth.login(request, user)  # 利用系统自带的登录方法进行登录
             return redirect(request.GET.get('from', reverse('blog:index')))
 
-    context = {'form':form}
+    context = {'form': form}
     return render(request, 'account/login.html', context)
 
 

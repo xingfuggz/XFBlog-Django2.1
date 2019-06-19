@@ -2,6 +2,8 @@ from django.db import models
 from django import forms
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import ObjectDoesNotExist
+from .models import Comment
+
 
 
 class CKEditorWidget(forms.Textarea):
@@ -45,4 +47,6 @@ class CommentForm(forms.Form):
         except ObjectDoesNotExist:
             raise forms.ValidationError('评论对象不存在')
         return self.cleaned_data
+
+
 

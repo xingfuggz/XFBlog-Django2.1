@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{% static 'blog/css/style.css' %}">
     <link rel="stylesheet" href="{% static 'blog/css/bulma.css' %}">
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <script src="{% static 'blog/js/bulma.js' %}"></script>
     {% block head %}
     <title>幸福关中的博客</title>
     {% endblock head %}
@@ -17,28 +18,28 @@
 <body>
     <!-- header -->
 <header>
-            <nav class="navbar" role="navigation" aria-label="main navigation" style="height:60px;">
-            <div class="container">
-                <div class="navbar-brand" style="height:60px;">
-                    <a href="{% url 'blog:index' %}" class="navbar-item">
-                        <span class="has-text-weight-bold is-size-4 is-uppercase has-text-link">pythonBJ</span>
-                    </a>
-                    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample" style="height:60px">
-                        <span aria-hidden="true"></span>
-                        <span aria-hidden="true"></span>
-                        <span aria-hidden="true"></span>
-                    </a>
-                </div>
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="container">
+            <div class="navbar-brand" style="height:60px;">
+                <a href="{% url 'blog:index' %}" class="navbar-item">
+                    <span class="has-text-weight-bold is-size-4 is-uppercase has-text-link">pythonBJ</span>
+                </a>
+                <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample" style="height:60px;">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
 
-                <div id="navbarBasicExample" class="navbar-menu" style="height:60px;">
-                    <div class="navbar-start">
-                        <div class="navbar-item">
-                            <div class="field">
-                                <div class="control has-icons-left has-icons-right">
-                                    <input class="input is-radiusless has-background-light" type="text" placeholder="Text input">
-                                      <span class="icon is-small is-left">
-                                        <i class="fas fa-search"></i>
-                                      </span>
+            <div id="navbarBasicExample" class="navbar-menu">
+                <div class="navbar-start">
+                    <div class="navbar-item">
+                        <div class="field">
+                            <div class="control has-icons-left has-icons-right">
+                                <input class="input is-radiusless has-background-light" type="text" placeholder="Text input">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-search"></i>
+                                </span>
                                       <!-- <span class="icon is-small is-right">
                                         <i class="fas fa-check"></i>
                                       </span> -->
@@ -260,7 +261,7 @@
                       <!-- <time>2019年5月17日</time> -->
                      </li>
                      <li>
-                         <a href="{% url 'account:login' %}">登录</a>
+                         <a href="{% url 'account:login' %}?from={{ request.get_full_path }}">登录</a>
                      </li>
                      {% endif %}
 

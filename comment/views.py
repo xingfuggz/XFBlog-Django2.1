@@ -13,6 +13,7 @@ def update_comment(request):
         cd = form.cleaned_data
         comment = Comment(author=request.user, comment_text=cd['comment_text'], content_object=cd['content_object'])
         comment.save()
+
         referer = request.META.get('HTTP_REFERER', reverse('blog:index'))
         return redirect('%s#comment' % referer)
     else:
